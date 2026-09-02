@@ -1,26 +1,108 @@
 @import "tailwindcss";
-
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@config "../tailwind.config.ts";
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-charcoal: #1a1714;
+  --color-charcoal-light: #242019;
+  --color-charcoal-lighter: #2f2a22;
+  --color-offwhite: #f4f1ea;
+  --color-gold: #d4c4a8;
+  --color-gold-dark: #b8a582;
+  --color-gold-light: #e6dcc8;
+  --font-display: var(--font-display);
+  --font-sans: var(--font-sans);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+:root {
+  --background: #1a1714;
+  --foreground: #f4f1ea;
 }
+
+/* Smooth scrolling is handled by Lenis (see components/SmoothScroll.tsx) so
+   anchor navigation doesn't fight between two competing smoothing systems.
+   Reduced-motion users get Lenis disabled entirely, falling back to this
+   default instant jump, which is the expected behavior for that preference. */
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+}
+
+.eyebrow {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+/* card-fan-carousel: sizing for .fan-layout / .fan-card is intentionally not
+   part of the component itself (it only supplies positioning via GSAP
+   transforms), so it's defined here. Card centering uses negative margins
+   rather than a CSS transform, since GSAP owns the transform property for
+   the fan's x/y/rotate/scale animation and would silently overwrite one. */
+.fan-layout {
+  height: 22rem;
+}
+.fan-card {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 7rem;
+  height: 9.5rem;
+  margin-left: -3.5rem;
+  margin-top: -4.75rem;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.45);
+  will-change: transform;
+}
+
+@media (min-width: 480px) {
+  .fan-layout {
+    height: 26rem;
+  }
+  .fan-card {
+    width: 8rem;
+    height: 10.75rem;
+    margin-left: -4rem;
+    margin-top: -5.375rem;
+  }
+}
+
+@media (min-width: 640px) {
+  .fan-layout {
+    height: 28rem;
+  }
+  .fan-card {
+    width: 9rem;
+    height: 12rem;
+    margin-left: -4.5rem;
+    margin-top: -6rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .fan-layout {
+    height: 34rem;
+  }
+  .fan-card {
+    width: 11rem;
+    height: 14.5rem;
+    margin-left: -5.5rem;
+    margin-top: -7.25rem;
+    border-radius: 1rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .fan-layout {
+    height: 38rem;
+  }
+  .fan-card {
+    width: 13rem;
+    height: 17rem;
+    margin-left: -6.5rem;
+    margin-top: -8.5rem;
+  }
 }
