@@ -6,7 +6,7 @@ import DataTable from "@/components/DataTable";
 import TextSection from "@/components/TextSection";
 import RoomGallery from "@/components/RoomGallery";
 import PhotoCarousel from "@/components/PhotoCarousel";
-import PdfSitePlanViewer from "@/components/PdfSitePlanViewer";
+import PdfSitePlanViewer from "@/components/PdfSitePlanViewerLoader";
 import SpecificationList from "@/components/SpecificationList";
 import Footer from "@/components/Footer";
 import RevealOnScroll from "@/components/RevealOnScroll";
