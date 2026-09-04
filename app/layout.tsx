@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Fraunces, Inter } from "next/font/google";
 import SmoothScroll from "@/components/SmoothScroll";
+import ChunkErrorReload from "@/components/ChunkErrorReload";
 import "./globals.css";
 
 const fraunces = Fraunces({
@@ -35,6 +36,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       className={`${fraunces.variable} ${inter.variable}`}
     >
       <body className="min-h-screen flex flex-col bg-charcoal text-offwhite font-sans antialiased">
+        <ChunkErrorReload />
         <SmoothScroll />
         {children}
       </body>
