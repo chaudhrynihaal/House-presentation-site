@@ -75,6 +75,8 @@ export default function SocialCards({ cards }: SocialCardsProps) {
   const hasEntered = useRef(false);
   const directionRef = useRef<"left" | "right" | null>(null);
   const prevVisible = useRef<Set<number>>(new Set());
+  const dragStartX = useRef<number | null>(null);
+  const dragStartY = useRef<number | null>(null);
 
   const totalCards = cards.length;
   const needsPagination = totalCards > MAX_VISIBLE;
@@ -251,6 +253,32 @@ export default function SocialCards({ cards }: SocialCardsProps) {
 
   if (!totalCards) return null;
 
+  const SWIPE_THRESHOLD = 40;
+
+  function handlePointerDown(e: React.PointerEvent<HTMLDivElement>) {
+    if (!needsPagination) return;
+    dragStartX.current = e.clientX;
+    dragStartY.current = e.clientY;
+  }
+
+  function handlePointerUp(e: React.PointerEvent<HTMLDivElement>) {
+    if (dragStartX.current === null || dragStartY.current === null) return;
+    const dx = e.clientX - dragStartX.current;
+    const dy = e.clientY - dragStartY.current;
+    dragStartX.current = null;
+    dragStartY.current = null;
+    // Ignore drags that are more vertical than horizontal, so page scroll
+    // still works normally when the gesture starts on the carousel.
+    if (Math.abs(dx) < Math.abs(dy)) return;
+    if (dx < -SWIPE_THRESHOLD) cycle("right");
+    else if (dx > SWIPE_THRESHOLD) cycle("left");
+  }
+
+  function handlePointerCancel() {
+    dragStartX.current = null;
+    dragStartY.current = null;
+  }
+
   const chevron = (direction: "left" | "right") => (
     <svg className="relative z-[2] w-4 h-4 md:w-5 md:h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
       <polyline points={direction === "left" ? "15 18 9 12 15 6" : "9 18 15 12 9 6"} />
@@ -260,7 +288,13 @@ export default function SocialCards({ cards }: SocialCardsProps) {
   return (
     <section className="flex flex-col items-center w-full py-4 lg:py-8 px-4 md:px-8 relative z-20">
       <div className="flex items-center justify-center w-full max-w-[90rem]">
-        <div ref={containerRef} className="fan-layout flex relative justify-center items-center w-full max-w-[80rem]">
+        <div
+          ref={containerRef}
+          className="fan-layout flex relative justify-center items-center w-full max-w-[80rem] touch-pan-y"
+          onPointerDown={handlePointerDown}
+          onPointerUp={handlePointerUp}
+          onPointerCancel={handlePointerCancel}
+        >
           {cards.map((card, index) => {
             const image = (
               <div className="relative w-full h-full overflow-hidden">
