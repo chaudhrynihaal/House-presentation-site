@@ -18,6 +18,15 @@
   --foreground: #f4f1ea;
 }
 
+/* Guards against mobile browsers auto-zooming the whole page out when any
+   element (e.g. an off-screen-positioned carousel card mid-transition)
+   briefly exceeds the viewport width. Applied to both html and body since
+   mobile Safari in particular can key off either. */
+html,
+body {
+  overflow-x: hidden;
+}
+
 /* Smooth scrolling is handled by Lenis (see components/SmoothScroll.tsx) so
    anchor navigation doesn't fight between two competing smoothing systems.
    Reduced-motion users get Lenis disabled entirely, falling back to this

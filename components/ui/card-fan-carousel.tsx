@@ -147,14 +147,14 @@ export default function SocialCards({ cards }: SocialCardsProps) {
           gsap.set(card, { x: 0, y: `${12 * hMult}rem`, rotation: 0, scale: 0.5, opacity: 0 });
           gsap.to(card, { ...target, duration: 1.2, ease: "elastic.out(1.05,.78)", delay: 0.2 + slot * 0.06, onComplete: onCardDone });
         } else if (!wasVisible) {
-          const enterX = direction === "right" ? 40 : -40;
+          const enterX = (direction === "right" ? 40 : -40) * multiplier;
           gsap.set(card, { x: `${enterX}rem`, y: `${y * hMult}rem`, rotation: direction === "right" ? 30 : -30, scale: 0.5, opacity: 0 });
           gsap.to(card, { ...target, duration: 0.6, ease: "power2.out", onComplete: onCardDone });
         } else {
           gsap.to(card, { ...target, duration: 0.5, ease: "power2.out", onComplete: onCardDone });
         }
       } else if (wasVisible) {
-        const exitX = direction === "right" ? -40 : 40;
+        const exitX = (direction === "right" ? -40 : 40) * multiplier;
         gsap.to(card, { x: `${exitX}rem`, opacity: 0, scale: 0.5, rotation: direction === "right" ? -30 : 30, duration: 0.4, ease: "power2.in", zIndex: 0 });
       } else if (isFirstMount) {
         gsap.set(card, { opacity: 0, scale: 0.3, x: 0, y: 0, zIndex: 0 });

@@ -83,12 +83,16 @@ export default function PdfSitePlanViewer({ pdfUrl }: { pdfUrl: string }) {
             ))}
           </div>
 
-          <div className="flex-1 overflow-auto p-6 flex justify-center bg-charcoal-light">
+          <div className="flex-1 overflow-auto p-6 bg-charcoal-light">
+            {/* Centered via margin:auto rather than flex's justify-content:center,
+                which clips start-side overflow instead of making it scrollable
+                when the page is wider than the viewport (mobile). */}
             <Page
               pageNumber={pageNumber}
               scale={scale}
               renderAnnotationLayer={false}
               renderTextLayer={false}
+              className="mx-auto w-fit"
             />
           </div>
         </Document>
