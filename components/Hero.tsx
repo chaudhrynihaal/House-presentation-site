@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 
 export default function Hero({
@@ -16,10 +17,26 @@ export default function Hero({
   posterSrc: string;
 }) {
   const shouldReduceMotion = useReducedMotion();
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    // React's `muted` JSX prop doesn't reliably set the DOM property before
+    // the browser evaluates its autoplay policy, which silently blocks
+    // autoplay and falls back to a native play button. Setting it directly
+    // and re-triggering play() here is the standard, reliable fix.
+    video.muted = true;
+    video.play().catch(() => {
+      // Autoplay still blocked (e.g. iOS Low Power Mode) — the poster frame
+      // and native play button remain as a graceful fallback.
+    });
+  }, []);
 
   return (
     <section id="overview" className="relative h-screen min-h-[600px] w-full overflow-hidden">
       <video
+        ref={videoRef}
         className="absolute inset-0 h-full w-full object-cover"
         src={videoSrc}
         poster={posterSrc}
@@ -27,7 +44,7 @@ export default function Hero({
         muted
         loop
         playsInline
-        preload="metadata"
+        preload="auto"
       />
       <div className="absolute inset-0 bg-gradient-to-t from-charcoal via-charcoal/40 to-charcoal/60" />
 
