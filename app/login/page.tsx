@@ -17,7 +17,7 @@ export default async function LoginPage({
     <main className="min-h-screen flex flex-col items-center justify-center bg-charcoal px-6">
       <p className="eyebrow text-gold mb-4">Private Presentation</p>
       <h1 className="font-display text-3xl md:text-4xl text-offwhite mb-10 text-center">
-        Lote 25
+        Villa Alira
       </h1>
       <LoginForm next={next && next.startsWith("/") ? next : "/"} />
     </main>

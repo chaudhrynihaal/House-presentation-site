@@ -18,7 +18,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Lote 25 — Private Presentation",
+  title: "Villa Alira — Private Presentation",
   description: "Private property presentation.",
   robots: {
     index: false,

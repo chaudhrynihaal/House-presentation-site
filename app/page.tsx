@@ -101,10 +101,10 @@ export default function Home() {
       <section id="site-plan" className="px-6 py-24 max-w-6xl mx-auto w-full">
         <RevealOnScroll className="mb-14">
           <p className="eyebrow text-gold mb-4">Documents</p>
-          <h2 className="font-display text-4xl md:text-5xl tracking-tight text-offwhite">Site Plan</h2>
+          <h2 className="font-display text-4xl md:text-5xl tracking-tight text-offwhite">Floor Plans</h2>
           <p className="mt-4 text-offwhite/60 max-w-2xl">
-            Full architectural floor plans available on request. Shown below is the property
-            specification sheet.
+            Enclosed and open floor areas, with plans for the basement, ground floor and first
+            floor.
           </p>
         </RevealOnScroll>
 
@@ -122,27 +122,6 @@ export default function Home() {
         <RevealOnScroll delay={0.1}>
           <SpecificationList specifications={property.specifications} />
         </RevealOnScroll>
-      </section>
-
-      <section id="residency" className="px-6 py-24 max-w-6xl mx-auto w-full">
-        <RevealOnScroll>
-          <TextSection
-            eyebrow="Residency & Tax"
-            heading={property.residencySection.heading}
-            body={property.residencySection.intro}
-          />
-        </RevealOnScroll>
-
-        <div className="mt-14 grid md:grid-cols-3 gap-8">
-          {property.residencySection.cards.map((card, i) => (
-            <RevealOnScroll key={card.title} delay={i * 0.1}>
-              <div className="border border-offwhite/10 p-6 h-full">
-                <h3 className="font-display text-xl text-gold mb-3">{card.title}</h3>
-                <p className="text-sm text-offwhite/70 leading-relaxed">{card.body}</p>
-              </div>
-            </RevealOnScroll>
-          ))}
-        </div>
       </section>
 
       <Footer

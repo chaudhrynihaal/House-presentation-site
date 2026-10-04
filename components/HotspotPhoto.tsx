@@ -138,6 +138,18 @@ export default function HotspotPhoto({
               {active.title}
             </h3>
             <p className="text-xs text-offwhite/70 leading-relaxed">{active.body}</p>
+            {active.highlights && active.highlights.length > 0 && (
+              <ul className="mt-3 flex flex-wrap gap-2">
+                {active.highlights.map((highlight) => (
+                  <li
+                    key={highlight}
+                    className="border border-gold/60 bg-gold/10 px-2.5 py-1 text-[0.65rem] font-sans font-medium tracking-widest2 uppercase text-gold"
+                  >
+                    {highlight}
+                  </li>
+                ))}
+              </ul>
+            )}
           </motion.div>
         )}
       </AnimatePresence>
