@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
@@ -17,6 +17,23 @@ export default function PdfSitePlanViewer({ pdfUrl }: { pdfUrl: string }) {
   const [numPages, setNumPages] = useState<number>(0);
   const [pageNumber, setPageNumber] = useState(1);
   const [scale, setScale] = useState(1);
+  const [pageWidth, setPageWidth] = useState(0);
+  const [viewerWidth, setViewerWidth] = useState(0);
+  // Callback ref: the viewer only mounts once <Document> has loaded the PDF.
+  const viewerRef = useCallback((el: HTMLDivElement) => {
+    const measure = () => {
+      const style = getComputedStyle(el);
+      setViewerWidth(el.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight));
+    };
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  // On narrow screens, 100% means "fit the page to the viewer width" so the
+  // whole plan is visible on a phone; wider screens keep the natural size.
+  const fitScale = pageWidth && viewerWidth ? Math.min(1, viewerWidth / pageWidth) : 1;
 
   return (
     <div className="border border-offwhite/10">
@@ -83,13 +100,14 @@ export default function PdfSitePlanViewer({ pdfUrl }: { pdfUrl: string }) {
             ))}
           </div>
 
-          <div className="flex-1 overflow-auto p-6 bg-charcoal-light">
+          <div ref={viewerRef} className="flex-1 min-w-0 overflow-auto p-3 md:p-6 bg-charcoal-light">
             {/* Centered via margin:auto rather than flex's justify-content:center,
                 which clips start-side overflow instead of making it scrollable
                 when the page is wider than the viewport (mobile). */}
             <Page
               pageNumber={pageNumber}
-              scale={scale}
+              scale={scale * fitScale}
+              onLoadSuccess={(page) => setPageWidth(page.originalWidth)}
               renderAnnotationLayer={false}
               renderTextLayer={false}
               className="mx-auto w-fit"

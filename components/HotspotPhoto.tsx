@@ -117,7 +117,8 @@ export default function HotspotPhoto({
             animate={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
             exit={shouldReduceMotion ? undefined : { opacity: 0, y: 12 }}
             transition={{ duration: 0.25 }}
-            className="absolute z-30 inset-x-2.5 bottom-2.5 bg-charcoal/95 border border-gold/30 p-4 shadow-2xl"
+            data-lenis-prevent
+            className="absolute z-30 inset-x-2.5 bottom-2.5 max-h-[calc(100%-1.25rem)] overflow-y-auto overscroll-contain bg-charcoal/95 border border-gold/30 p-4 shadow-2xl"
           >
             <button
               ref={closeButtonRef}
